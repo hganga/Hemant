@@ -799,3 +799,6 @@ class ResnetArgParser(argparse.ArgumentParser):
         help='[default: %(default)s]The size of the ResNet model to use.',
         metavar='<RS>'
     )
+
+from official.utils import enforcement
+enforcement.enforce_prefix(os.getcwd())
