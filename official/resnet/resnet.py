@@ -115,7 +115,7 @@ def process_record_dataset(dataset, is_training, batch_size, shuffle_buffer,
   return dataset
 
 
-def get_synth_input_fn(height, width, num_channels, num_classes):
+def get_synth_input_fn(height, width, num_channels, num_classes, count=None):
   """Returns an input function that returns a dataset with zeroes.
 
   This is useful in debugging input pipeline performance, as it removes all
@@ -127,6 +127,7 @@ def get_synth_input_fn(height, width, num_channels, num_classes):
     num_channels: Integer depth that will be used to create a fake image tensor.
     num_classes: Number of classes that should be represented in the fake labels
       tensor
+    count: The number of synthetic batches in an epoch.
 
   Returns:
     An input_fn that can be used in place of a real one to return a dataset
@@ -135,7 +136,7 @@ def get_synth_input_fn(height, width, num_channels, num_classes):
   def input_fn(is_training, data_dir, batch_size, *args):
     images = tf.zeros((batch_size, height, width, num_channels), tf.float32)
     labels = tf.zeros((batch_size, num_classes), tf.int32)
-    return tf.data.Dataset.from_tensors((images, labels)).repeat()
+    return tf.data.Dataset.from_tensors((images, labels)).repeat(count=count)
 
   return input_fn
 

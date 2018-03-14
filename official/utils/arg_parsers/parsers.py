@@ -54,6 +54,11 @@ Notes about add_argument():
 
 """
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+
 import argparse
 
 
@@ -169,6 +174,14 @@ class PerformanceParser(argparse.ArgumentParser):
           help="If set, use fake data (zeroes) instead of a real dataset. "
                "This mode is useful for performance debugging, as it removes "
                "input processing steps, but will not learn anything."
+      )
+
+      self.add_argument(
+          "--synthetic_batches_per_epoch", "-synth_bpe", type=int, default=None,
+          help="[default: %(default)s] The number of synthetic mini batches "
+               "per epoch. If this value is None, the first epoch will run "
+               "indefinitely.",
+          metavar="<SBPE>"
       )
 
 

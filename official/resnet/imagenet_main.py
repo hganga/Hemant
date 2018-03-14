@@ -189,9 +189,10 @@ def input_fn(is_training, data_dir, batch_size, num_epochs=1,
       multi_gpu=multi_gpu)
 
 
-def get_synth_input_fn():
+def get_synth_input_fn(count=None):
   return resnet.get_synth_input_fn(
-        _DEFAULT_IMAGE_SIZE, _DEFAULT_IMAGE_SIZE, _NUM_CHANNELS, _NUM_CLASSES)
+        _DEFAULT_IMAGE_SIZE, _DEFAULT_IMAGE_SIZE, _NUM_CHANNELS, _NUM_CLASSES,
+        count=count)
 
 
 ###############################################################################
@@ -281,7 +282,8 @@ def imagenet_model_fn(features, labels, mode, params):
 
 
 def main(unused_argv):
-  input_function = FLAGS.use_synthetic_data and get_synth_input_fn() or input_fn
+  input_function = FLAGS.use_synthetic_data and get_synth_input_fn(
+      count=FLAGS.synthetic_batches_per_epoch) or input_fn
   resnet.resnet_main(FLAGS, imagenet_model_fn, input_function)
 
 

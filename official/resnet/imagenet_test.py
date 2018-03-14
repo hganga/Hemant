@@ -17,16 +17,22 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
 import unittest
 
 import tensorflow as tf
 
 from official.resnet import imagenet_main
+from official.utils.testing import integration
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 
 _BATCH_SIZE = 32
 _LABEL_CLASSES = 1001
+
+
+MAIN_PATH = os.path.join(os.path.split(
+    os.path.abspath(__file__))[0], "cifar10_main.py")
 
 
 class BaseTest(tf.test.TestCase):
@@ -241,6 +247,9 @@ class BaseTest(tf.test.TestCase):
       output = model(fake_input, training=True)
 
       self.assertAllEqual(output.shape, (batch_size, num_classes))
+
+  def test_imagenet_end_to_end_synthetic(self):
+    integration.run_synthetic(file_path=MAIN_PATH)
 
 
 if __name__ == '__main__':
