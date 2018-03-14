@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-
+"""Helper code to run complete models from within python.
+"""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -20,8 +21,8 @@ from __future__ import print_function
 
 
 import os
-import subprocess
 import shutil
+import subprocess
 import sys
 import time
 
@@ -30,6 +31,20 @@ PYTHON_CMD = "python2" if sys.version_info[0] == 2 else "python3"
 
 
 def run_synthetic(file_path):
+  """Performs a minimal run of a model.
+
+    This function is intended to test for syntax errors throughout a model. A
+  very limited run is performed using synthetic data.
+
+  Args:
+    file_path: The absolute path of a python script to be tested.
+
+  Raises:
+    OSError: Any error detected in the run causes an OSError. Because the code
+      is run as a subprocess, it is not able to manifest the specific python
+      error that was raised.
+  """
+
   model_dir = "/tmp/model_test_{}".format(hash(time.time()))
   if os.path.exists(model_dir):
     shutil.rmtree(model_dir)
